@@ -3,9 +3,22 @@
 <body>
 <body style="display: flex; justify-content: flex-end; align-items: flex-start; height: 100vh; margin: 0; background-color: #f0f0f0;">
 
-<button onclick="switchToCustomChain()">Add FrameTestnet</button>
-
 <script>
+async function checkConnection() {
+  if (window.ethereum) {
+    const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+    if (chainId !== '0x41a6ace') {
+      // Display the button only if not connected to FrameTestnet
+      const button = document.createElement('button');
+      button.textContent = 'Add FrameTestnet';
+      button.onclick = switchToCustomChain;
+      document.body.appendChild(button);
+    }
+  } else {
+    console.error('MetaMask not found');
+  }
+}
+
 async function switchToCustomChain() {
   if (window.ethereum) {
     try {
@@ -24,6 +37,8 @@ async function switchToCustomChain() {
         }],
       });
       console.log('Switched to FrameTestnet (Chain 0x41a6ace)');
+      // Remove the button after successfully switching to FrameTestnet
+      document.body.removeChild(document.querySelector('button'));
     } catch (error) {
       console.error('Error switching chain:', error);
     }
@@ -31,10 +46,10 @@ async function switchToCustomChain() {
     console.error('MetaMask not found');
   }
 }
+
+// Call the checkConnection function when the page loads
+checkConnection();
 </script>
 
 </body>
 </html>
-
-
-  
