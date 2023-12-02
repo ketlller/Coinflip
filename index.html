@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Switch Fram Test Network</title>
+  <title>Switch MetaMask Network</title>
   <style>
     /* Reset CSS to remove default margins and paddings */
     body, h1, h2, h3, p, ul, li {
@@ -24,30 +24,13 @@
       overflow-x: hidden;
     }
 
-    button {
-      padding: 10px;
-      background-color: blue;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* Modal styles */
-    .modal {
+    #popup {
       display: none;
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       padding: 20px;
-      background-color: white;
-      border: 1px solid #ccc;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      z-index: 1;
-    }
-
-    .modal-button {
-      padding: 10px;
       background-color: blue;
       color: white;
       border: none;
@@ -64,23 +47,12 @@ async function checkConnection() {
   if (window.ethereum) {
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId !== '0x41a6ace') {
-      // Show the modal if connected to the wrong network
-      showModal();
+      // Show the popup if connected to the wrong network
+      document.getElementById('popup').style.display = 'block';
     }
   } else {
     console.error('MetaMask not found');
   }
-}
-
-async function showModal() {
-  // Display the modal
-  const modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <p>You are in the wrong network. Switch to FrameTestnet.</p>
-    <button class="modal-button" onclick="switchToCustomChain()">Add to MetaMask</button>
-  `;
-  document.body.appendChild(modal);
 }
 
 async function switchToCustomChain() {
@@ -101,9 +73,9 @@ async function switchToCustomChain() {
         }],
       });
       console.log('Switched to FrameTestnet (Chain 0x41a6ace)');
-      // Close the modal after successfully switching to FrameTestnet
-      const modal = document.querySelector('.modal');
-      modal.parentNode.removeChild(modal);
+      // Hide the popup after successfully switching to FrameTestnet
+      document.getElementById('popup').style.display = 'none';
+      // Add your code to enable website functionality after switching
     } catch (error) {
       console.error('Error switching chain:', error);
     }
@@ -112,6 +84,9 @@ async function switchToCustomChain() {
   }
 }
 </script>
+
+<!-- Popup -->
+<button id="popup" onclick="switchToCustomChain()">Switch to FrameTestnet</button>
 
 </body>
 </html>
