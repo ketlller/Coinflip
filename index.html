@@ -3,6 +3,12 @@
 <body>
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Switch MetaMask Network</title>
   <style>
     /* Reset CSS to remove default margins and paddings */
     body, h1, h2, h3, p, ul, li {
@@ -26,22 +32,47 @@
       border: none;
       cursor: pointer;
     }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      z-index: 1;
+    }
+
+    .modal-button {
+      padding: 10px;
+      background-color: blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-<button onclick="switchToCustomChain()">Add FrameTestnet</button>
+<!-- Modal -->
+<div id="myModal" class="modal">
+  <p>You are in the wrong network. Switch to FrameTestnet.</p>
+  <button class="modal-button" onclick="switchToCustomChain()">Add to MetaMask</button>
+</div>
+
+<button onclick="checkConnection()">Check Network</button>
 
 <script>
 async function checkConnection() {
   if (window.ethereum) {
     const chainId = await window.ethereum.request({ method: 'eth_chainId' });
     if (chainId !== '0x41a6ace') {
-      // Display the button only if not connected to FrameTestnet
-      const button = document.createElement('button');
-      button.textContent = 'Add FrameTestnet';
-      button.onclick = switchToCustomChain;
-      document.body.appendChild(button);
+      // Show the modal if connected to the wrong network
+      document.getElementById('myModal').style.display = 'block';
     }
   } else {
     console.error('MetaMask not found');
@@ -66,8 +97,8 @@ async function switchToCustomChain() {
         }],
       });
       console.log('Switched to FrameTestnet (Chain 0x41a6ace)');
-      // Remove the button after successfully switching to FrameTestnet
-      document.body.removeChild(document.querySelector('button'));
+      // Close the modal after successfully switching to FrameTestnet
+      document.getElementById('myModal').style.display = 'none';
     } catch (error) {
       console.error('Error switching chain:', error);
     }
@@ -75,9 +106,6 @@ async function switchToCustomChain() {
     console.error('MetaMask not found');
   }
 }
-
-// Call the checkConnection function when the page loads
-checkConnection();
 </script>
 
 </body>
