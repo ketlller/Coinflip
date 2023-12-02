@@ -40,8 +40,6 @@
 </head>
 <body>
 
-<button id="checkButton" onclick="checkConnection()">Check Network</button>
-
 <script>
 async function checkConnection() {
   if (window.ethereum) {
@@ -49,7 +47,8 @@ async function checkConnection() {
     if (chainId !== '0x41a6ace') {
       // Show the popup if connected to the wrong network
       document.getElementById('popup').style.display = 'block';
-      // Hide the check button
+    } else {
+      // Remove the check button if connected to the right network
       document.getElementById('checkButton').style.display = 'none';
     }
   } else {
@@ -89,6 +88,9 @@ async function switchToCustomChain() {
 
 <!-- Popup -->
 <button id="popup" onclick="switchToCustomChain()">Switch to FrameTestnet</button>
+
+<!-- Check Button -->
+<button id="checkButton" onclick="checkConnection()">Check Network</button>
 
 </body>
 </html>
