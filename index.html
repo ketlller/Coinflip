@@ -40,7 +40,7 @@
 </head>
 <body>
 
-<button onclick="checkConnection()">Check Network</button>
+<button id="checkButton" onclick="checkConnection()">Check Network</button>
 
 <script>
 async function checkConnection() {
@@ -49,6 +49,8 @@ async function checkConnection() {
     if (chainId !== '0x41a6ace') {
       // Show the popup if connected to the wrong network
       document.getElementById('popup').style.display = 'block';
+      // Hide the check button
+      document.getElementById('checkButton').style.display = 'none';
     }
   } else {
     console.error('MetaMask not found');
