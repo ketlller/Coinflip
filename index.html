@@ -2,6 +2,7 @@
 </head>
 <body>
 
+
   <style>
     /* Reset CSS to remove default margins and paddings */
     body, h1, h2, h3, p, ul, li {
@@ -11,7 +12,7 @@
 
     body {
       display: flex;
-      justify-content: flex-end;
+      justify-content: flex-start;
       align-items: flex-start;
       height: 100vh;
       background-color: #f0f0f0;
@@ -28,6 +29,8 @@
   </style>
 </head>
 <body>
+
+<button onclick="switchToCustomChain()">Add FrameTestnet</button>
 
 <script>
 async function checkConnection() {
